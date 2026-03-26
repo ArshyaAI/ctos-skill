@@ -23,8 +23,12 @@ which ctos >/dev/null 2>&1 && echo "INSTALLED" || echo "NOT_INSTALLED"
 ```
 
 - `NOT_INSTALLED` → run `npm install -g @oysa/connectos`
-- `NOT_CONFIGURED` → run `ctos init --url <url> --name <project> --bootstrap-secret <secret>`
-  (ask the user for the ConnectOS URL and bootstrap secret)
+- `NOT_CONFIGURED` → ask the user which setup they need:
+  - **New tenant:** `ctos init --name <project> --bootstrap-secret <secret>`
+    (URL defaults to production. Only the bootstrap secret is needed.)
+  - **Existing tenant:** `ctos init --api-key <key> --tenant <tenant_id>`
+    (No bootstrap secret needed — just the API key and tenant ID.)
+  - Ask: "Do you have an existing API key and tenant ID, or do you need to register a new tenant?"
 - Both OK → proceed to Step 2
 
 ## Step 2: Check What's Available
