@@ -12,7 +12,7 @@ echo "Installing ConnectOS skill for Claude Code..."
 # Install ctos CLI if not present
 if ! command -v ctos >/dev/null 2>&1; then
   echo "  Installing ctos CLI..."
-  npm install -g @oysa/connectos 2>/dev/null
+  npm install -g @oysa/connectos --force 2>/dev/null
   echo "  ctos CLI installed."
 else
   echo "  ctos CLI already installed."
@@ -27,7 +27,8 @@ echo "  Skill installed to $SKILL_DIR"
 if [ -f "$HOME/.ctosrc" ]; then
   echo "  ~/.ctosrc found — ready to use."
 else
-  echo "  ~/.ctosrc not found — run 'ctos init --url <url> --name <project> --bootstrap-secret <secret>' to configure."
+  echo "  ~/.ctosrc not found — run 'ctos init --bootstrap-secret <secret>' to configure."
+  echo "  (Only the bootstrap secret is required. URL and name are auto-detected.)"
 fi
 
 echo ""
