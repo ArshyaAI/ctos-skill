@@ -81,7 +81,16 @@ The proxy injects the OAuth token automatically. No token management needed.
 ```bash
 ctos connect shopify    # Opens browser for OAuth flow
 ctos scopes shopify     # Show recommended OAuth scopes first
+ctos readiness ga4      # Check wedge-provider setup state and next action
+ctos select-target ga4 properties/329193677   # Persist GA4 property target
+ctos select-target meta-ads act_1257505188044838  # Persist Meta ad account target
 ```
+
+Provider aliases:
+
+- `meta`, `meta-ads`, and `facebook` all resolve to `meta_ads`
+- `google-analytics` resolves to `ga4`
+- `ctos setup-provider` still uses the Nango integration key, for example `facebook`
 
 ### Connection lifecycle
 
@@ -89,6 +98,8 @@ ctos scopes shopify     # Show recommended OAuth scopes first
 ctos reconnect <provider>   # Re-authorize a broken connection
 ctos disconnect <provider>  # Remove a connection
 ctos health --pretty        # Server readiness check
+ctos readiness <provider>   # Wedge-provider readiness + next action
+ctos select-target <provider> <target_id>  # Persist GA4 property_id / Meta ad_account_id
 ```
 
 ### Approvals (for risky operations)
@@ -115,5 +126,6 @@ ctos request-approval <capability> --provider <name>  # Request approval
 
 - **401 on any command**: API key is invalid — check `~/.ctosrc` or re-run `ctos init`
 - **404 on briefing**: Provider not connected — run `ctos connect <provider>`
+- **200 on readiness with `selection_required: true`**: pick one candidate from `target_selection.available_targets`, then run `ctos select-target <provider> <target_id>`
 - **503 on briefing**: Nango not configured server-side — check server env vars
 - **needs_reauth in connections**: Token expired — run `ctos reconnect <provider>`
